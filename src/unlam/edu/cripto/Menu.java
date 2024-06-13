@@ -6,7 +6,8 @@ public class Menu {
 	public static void MenuAdministrador() {
 		Scanner myObj = new Scanner(System.in);
 		int menuAdmin;
-		System.out.flush(); 
+		String nombreCripto;
+		
 		do {
 			System.out.println("Menu de opciones Administrador");
 			System.out.println("----------------");
@@ -21,12 +22,30 @@ public class Menu {
 			menuAdmin = myObj.nextInt();
 			
 			switch(menuAdmin) {
-				case 4:
+				case 1:
 					System.out.println("Hola");
 					break;
+				case 4:
+					System.out.println("---- Consultar Criptomoneda ----");
+					System.out.print("Ingrese el nombre de la criptomoneda: ");
+					
+					myObj.nextLine();
+					nombreCripto = myObj.nextLine();
+					
+					Criptomoneda cripto =  Archivo.criptomonedaArchivo(nombreCripto.toLowerCase());
+					if(cripto != null) {
+						System.out.println("Nombre:" + cripto.getNombre());
+						System.out.println("Alias:" + cripto.getAlias());
+						System.out.println("Precio:" + cripto.getPrecio());
+						System.out.println("-----------------");
+						System.out.println("Presiona Enter para continuar...");
+						myObj.nextLine();
+					}
+					else {
+						System.out.println("No se encontro la criptomoneda.");
+					}
+					break;
 			}
-			
-			
 		}while(menuAdmin != 6);
 	}
 	

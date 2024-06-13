@@ -37,7 +37,7 @@ public class Archivo {
         return usuarioEncontrado;
 	}
 	
-	public Criptomoneda criptomonedaArchivo(String nombreCripto) {
+	public static Criptomoneda criptomonedaArchivo(String nombreCripto) {
 		String criptomonedasPath = "../ArchivosCriptomoneda/criptomonedas.csv";
 		Criptomoneda criptomoneda = null;
 		
@@ -45,7 +45,7 @@ public class Archivo {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
-                if(nombreCripto.equals(values[0])) {
+                if(nombreCripto.equals(values[0].toLowerCase())) {
                 	criptomoneda = new Criptomoneda(values[0], values[1], Integer.parseInt(values[2]));
                 }
             }
