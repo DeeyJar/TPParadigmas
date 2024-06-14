@@ -16,6 +16,8 @@ public class Main {
 		}else {
 			System.out.println("Usuario no encontrado. Adios.");
 		}
+		
+		System.out.println("\n--------- Fin del programa ----------");
 	}
 
 }

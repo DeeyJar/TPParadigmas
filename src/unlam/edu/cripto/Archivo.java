@@ -3,8 +3,7 @@ package unlam.edu.cripto;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Archivo {
@@ -46,7 +45,7 @@ public class Archivo {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 if(nombreCripto.equals(values[0].toLowerCase())) {
-                	criptomoneda = new Criptomoneda(values[0], values[1], Integer.parseInt(values[2]));
+                	criptomoneda = new Criptomoneda(values[0], values[1], new BigDecimal(values[2]));
                 }
             }
         } catch (IOException e) {
@@ -56,4 +55,22 @@ public class Archivo {
         return criptomoneda;
 	}
 	
+	public static Mercado buscarEstadoDelMercado(String simbolo) {
+		String criptomonedasPath = "./mercados.csv";
+		Mercado mercado = null;
+		
+        try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                if(simbolo.equals(values[0])) {
+                	mercado = new Mercado(values[0], new BigDecimal(values[1]), new BigDecimal(values[2]), new BigDecimal(values[3]));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         
+        return mercado;
+	}
 }

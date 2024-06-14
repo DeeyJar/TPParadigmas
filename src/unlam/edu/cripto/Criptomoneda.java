@@ -1,54 +1,39 @@
 package unlam.edu.cripto;
 
+import java.math.BigDecimal;
+
 public class Criptomoneda {
 	private String nombre;
-	private String alias;
-	private int precio;
+	private String simbolo;
+	private BigDecimal precio;
 	
-	private int capacidad;
-	private int volumen;
-	private int variacion;
-	
-	public Criptomoneda(String nombre,String alias, int precio){
+	public Criptomoneda(String nombre,String simbolo, BigDecimal precio){
 		this.nombre = nombre;
-		this.alias = alias;
+		this.simbolo = simbolo;
 		this.precio = precio;
 	}
 	
 	public String getNombre() {
 		return nombre;
 	}
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getAlias() {
-		return alias;
+	
+	public String getSimbolo() {
+		return simbolo;
 	}
-	public void setAlias(String alias) {
-		this.alias = alias;
+	
+	public void setSimbolo(String simbolo) {
+		this.simbolo = simbolo;
 	}
-	public int getPrecio() {
+	
+	public BigDecimal getPrecio() {
 		return precio;
 	}
-	public void setPrecio(int precio) {
+	
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
-	}
-	public int getCapacidad() {
-		return capacidad;
-	}
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
-	}
-	public int getVolumen() {
-		return volumen;
-	}
-	public void setVolumen(int volumen) {
-		this.volumen = volumen;
-	}
-	public int getVariacion() {
-		return variacion;
-	}
-	public void setVariacion(int variacion) {
-		this.variacion = variacion;
 	}
 }
