@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Archivo {
 	public Usuario archivoUsuario() {
-		String usuarioPath = "../ArchivosCriptomoneda/usuarios.csv";
+		String usuarioPath = "./usuarios.csv";
 		Scanner myObj = new Scanner(System.in);
 		String usuarioInput;
 		Usuario usuarioEncontrado = null;
@@ -38,7 +38,7 @@ public class Archivo {
 	}
 	
 	public static Criptomoneda criptomonedaArchivo(String nombreCripto) {
-		String criptomonedasPath = "../ArchivosCriptomoneda/criptomonedas.csv";
+		String criptomonedasPath = "./criptomonedas.csv";
 		Criptomoneda criptomoneda = null;
 		
         try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
