@@ -1,6 +1,7 @@
 package unlam.edu.cripto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Criptomoneda {
 	private String nombre;
@@ -11,6 +12,30 @@ public class Criptomoneda {
 		this.nombre = nombre;
 		this.simbolo = simbolo;
 		this.precio = precio;
+	}
+	
+	public static Criptomoneda getCriptomoneda(List<Criptomoneda> cripto, String nombreCripto) {
+		Criptomoneda encontrada = null;
+		for(Criptomoneda c : cripto) {
+			if(nombreCripto.equalsIgnoreCase(c.nombre)) {
+				encontrada = c;
+				break;
+			}
+		}
+		
+		return encontrada;
+	}
+	
+	public static Criptomoneda simboloExiste(List<Criptomoneda> cripto, String simbolo) {
+		Criptomoneda encontrada = null;
+		for(Criptomoneda c : cripto) {
+			if(simbolo.equalsIgnoreCase(c.simbolo)) {
+				encontrada = c;
+				break;
+			}
+		}
+		
+		return encontrada;
 	}
 	
 	public String getNombre() {
@@ -36,4 +61,10 @@ public class Criptomoneda {
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
+
+	@Override
+	public String toString() {
+		return nombre + ";" + simbolo + ";" + precio;
+	}
+	
 }

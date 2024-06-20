@@ -1,9 +1,13 @@
 package unlam.edu.cripto;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Archivo {
@@ -28,6 +32,9 @@ public class Archivo {
                     	usuarioEncontrado = new Usuario(values[0], Integer.parseInt(values[1]),values[2], Integer.parseInt(values[3]));
                     }
                 }
+                else {
+                	System.out.println("Creando usuario.");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,41 +43,52 @@ public class Archivo {
         return usuarioEncontrado;
 	}
 	
-	public static Criptomoneda criptomonedaArchivo(String nombreCripto) {
-		String criptomonedasPath = "./criptomonedas.csv";
+	public List<Criptomoneda> criptomonedaArchivo(String criptomonedasPath) {
 		Criptomoneda criptomoneda = null;
+		List<Criptomoneda> listCripto = new ArrayList<Criptomoneda>();
 		
         try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
-                if(nombreCripto.equals(values[0].toLowerCase())) {
-                	criptomoneda = new Criptomoneda(values[0], values[1], new BigDecimal(values[2]));
-                }
+                criptomoneda = new Criptomoneda(values[0], values[1], new BigDecimal(values[2]));
+                listCripto.add(criptomoneda);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
          
-        return criptomoneda;
+        return listCripto;
 	}
 	
-	public static Mercado buscarEstadoDelMercado(String simbolo) {
-		String criptomonedasPath = "./mercados.csv";
-		Mercado mercado = null;
-		
-        try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(";");
-                if(simbolo.equals(values[0])) {
-                	mercado = new Mercado(values[0], new BigDecimal(values[1]), new BigDecimal(values[2]), new BigDecimal(values[3]));
-                }
+	public static void modificarCriptomonedaArchivo(List<Criptomoneda> cripto) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./criptomonedas.csv"))) {
+            for(Criptomoneda c : cripto) {
+            	String line = c.toString();
+            	writer.write(line);
+                writer.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-         
-        return mercado;
+	}
+	
+	
+	public List<Mercado> estadoDelMercado(String mercadoPath) {
+		Mercado mercado = null;
+		List<Mercado> listMercado = new ArrayList<Mercado>();
+		
+        try (BufferedReader br = new BufferedReader(new FileReader(mercadoPath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                mercado = new Mercado(values[0], new BigDecimal(values[1]), new BigDecimal(values[2]), new BigDecimal(values[3]));
+                listMercado.add(mercado);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return listMercado;
 	}
 }

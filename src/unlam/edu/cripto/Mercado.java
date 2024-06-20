@@ -1,6 +1,7 @@
 package unlam.edu.cripto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Mercado {
 
@@ -16,6 +17,19 @@ public class Mercado {
 		this.volumen = volumen;
 		this.variacion = variacion;
 	}
+	
+	public static Mercado getMercado(List<Mercado> mercado, String simboloCripto) {
+		Mercado encontrada = null;
+		for(Mercado m : mercado) {
+			if(simboloCripto.equalsIgnoreCase(m.getSimbolo())) {
+				encontrada = m;
+				break;
+			}
+		}
+		
+		return encontrada;
+	}
+	
 
 	public String getSimbolo() {
 		return simbolo;
@@ -47,5 +61,10 @@ public class Mercado {
 
 	public void setVariacion(BigDecimal variacion) {
 		this.variacion = variacion;
+	}
+
+	@Override
+	public String toString() {
+		return simbolo + ";" + capacidad + ";" + volumen + ";" + variacion;
 	}
 }

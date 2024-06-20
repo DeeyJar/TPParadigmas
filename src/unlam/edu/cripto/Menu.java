@@ -1,9 +1,11 @@
 package unlam.edu.cripto;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-	public static void MenuAdministrador() {
+	public static void MenuAdministrador(List<Criptomoneda> cripto, List<Mercado> mercado) {
 		Scanner myObj = new Scanner(System.in);
 		int menuAdmin;
 		String nombreCripto;
@@ -23,19 +25,21 @@ public class Menu {
 			
 			switch(menuAdmin) {
 				case 1:
-					System.out.println("Hola");
+					cripto = crearCriptomoneda(cripto);
 					break;
 				case 4:
-					consultarCriptomoneda();
+					consultarCriptomoneda(cripto);
 					break;
 				case 5:
-					consultarEstadoDelMercado();
+					consultarEstadoDelMercado(cripto,mercado);
 					break;
 			}
 		}while(menuAdmin != 6);
+		
+		Archivo.modificarCriptomonedaArchivo(cripto);
 	}
 	
-	public static void MenuUsuario() {
+	public static void MenuUsuario(List<Criptomoneda> cripto, List<Mercado> mercado) {
 		Scanner myObj = new Scanner(System.in);
 		int menuUsuario;
 		
@@ -58,17 +62,50 @@ public class Menu {
 				System.out.println("Hola");
 				break;
 			case 3:
-				consultarCriptomoneda();
+				consultarCriptomoneda(cripto);
 				break;
 			case 5:
-				consultarEstadoDelMercado();
+				consultarEstadoDelMercado(cripto,mercado);
 				break;
 		}
 			
 		}while(menuUsuario != 7);
 	}
 	
-	private static void consultarCriptomoneda() {
+	private static List<Criptomoneda> crearCriptomoneda(List<Criptomoneda> listCripto) {
+		System.out.println("---- Crear Criptomoneda ----");
+		System.out.print("Ingrese el nombre de la criptomoneda: ");
+
+		Scanner sc = new Scanner(System.in);
+		String nombreCripto = sc.nextLine();
+		
+		Criptomoneda encontrada =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
+		if(encontrada == null) {
+			System.out.print("Ingrese el simbolo del criptomoneda: ");
+			String simboloCripto = sc.nextLine();
+			
+			Criptomoneda simboloLista =  Criptomoneda.simboloExiste(listCripto,nombreCripto);
+			
+			if(simboloLista == null) {
+				System.out.print("Ingrese el precio inicial: ");
+				BigDecimal precio = sc.nextBigDecimal();
+				Criptomoneda nuevaCripto = new Criptomoneda(nombreCripto,simboloCripto,precio);
+				listCripto.add(nuevaCripto);
+			}else {
+				System.out.print("Simbolo ya existente, ¿desea modificar la criptomoneda"+ simboloLista.getNombre() + "?");
+				System.out.print("Si (S) o No (N): ");
+				String modificarCripto = sc.nextLine(); 
+			}
+		}else {
+			System.out.print("Simbolo ya existente, ¿desea modificar la criptomoneda"+ encontrada.getNombre() + "?");
+			System.out.print("Si (S) o No (N): ");
+			String modificarCripto = sc.nextLine(); 
+		}
+		
+		return listCripto;
+	}
+	
+	private static void consultarCriptomoneda(List<Criptomoneda> listCripto) {
 		
 		System.out.println("---- Consultar Criptomoneda ----");
 		System.out.print("Ingrese el nombre de la criptomoneda: ");
@@ -77,12 +114,12 @@ public class Menu {
 		String nombreCripto = sc.nextLine();
 		String format = "%-20s%-20s%s";
 		
-		Criptomoneda cripto =  Archivo.criptomonedaArchivo(nombreCripto.toLowerCase());
+		Criptomoneda encontrada =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
 		
-		if(cripto != null) {
-			System.out.printf(format, "Nombre:" + cripto.getNombre()
-									, "Alias:" + cripto.getSimbolo()
-									, "Precio:" + cripto.getPrecio());
+		if(encontrada != null) {
+			System.out.printf(format, "Nombre:" + encontrada.getNombre()
+									, "Alias:" + encontrada.getSimbolo()
+									, "Precio:" + encontrada.getPrecio());
 			System.out.println("\n-----------------\n");
 			System.out.println("Presiona Enter para continuar...\n");
 			sc.nextLine();
@@ -93,7 +130,7 @@ public class Menu {
 		
 	}
 	
-	private static void consultarEstadoDelMercado() {
+	private static void consultarEstadoDelMercado(List<Criptomoneda> listCripto,List<Mercado> listMercado) {
 		
 		System.out.println("---- Consultar estado actual del mercado ----");
 		System.out.print("Ingrese el nombre de la criptomoneda: ");
@@ -102,11 +139,11 @@ public class Menu {
 		String nombreCripto = sc.nextLine();
 		String format = "%-15s%-40s%s\n";
 		
-		Criptomoneda cripto =  Archivo.criptomonedaArchivo(nombreCripto.toLowerCase());
+		Criptomoneda cripto =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
 		
 		assert cripto != null : "No existe esa cripto rey";
 		
-		Mercado mercado = Archivo.buscarEstadoDelMercado(cripto.getSimbolo());
+		Mercado mercado = Mercado.getMercado(listMercado,cripto.getSimbolo());
 		
 		if(mercado != null) {
 			System.out.println("\nDatos del mercado:");
