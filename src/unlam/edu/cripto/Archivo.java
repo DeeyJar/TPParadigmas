@@ -5,23 +5,24 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Archivo {
-	public Usuario archivoUsuario() {
-		String usuarioPath = "./usuarios.csv";
-		Scanner myObj = new Scanner(System.in);
+	public static Usuario archivoUsuario() {
+		String usuarioPath = "./files/usuarios.csv";
+		Scanner sc = new Scanner(System.in);
 		String usuarioInput;
 		Usuario usuarioEncontrado = null;
 		System.out.print("Ingrese usuario: ");
-		usuarioInput = myObj.nextLine(); 
+		usuarioInput = sc.nextLine(); 
 		
-        try (BufferedReader br = new BufferedReader(new FileReader(usuarioPath))) {
+        try (RandomAccessFile raf = new RandomAccessFile(usuarioPath, "rw")) {
             String line;
-            while ((line = br.readLine()) != null) {
+            while ((line = raf.readLine()) != null) {
                 String[] values = line.split(";");
                 if(usuarioInput.equals(values[0])) {
                 	if (values.length == 2) {
@@ -29,11 +30,17 @@ public class Archivo {
                 		usuarioEncontrado = new Usuario(values[0], values[1]);
                     } else if (values.length == 4) {
                         //Usuario
-                    	usuarioEncontrado = new Usuario(values[0], Integer.parseInt(values[1]),values[2], Integer.parseInt(values[3]));
+                    	usuarioEncontrado = new Usuario(values[0], Long.parseLong(values[1]),values[2], new BigDecimal(values[3]));
                     }
                 }
                 else {
-                	System.out.println("Creando usuario.");
+                	System.out.println("\nUsuario no encontrado. ");
+                	
+                	usuarioEncontrado = new Usuario(usuarioInput);
+                	usuarioEncontrado.completarRegistro();
+                	
+                	raf.seek(raf.length()); // Mover el puntero al final del archivo
+                    raf.writeBytes(usuarioEncontrado.toString());
                 }
             }
         } catch (IOException e) {
@@ -43,7 +50,7 @@ public class Archivo {
         return usuarioEncontrado;
 	}
 	
-	public List<Criptomoneda> criptomonedaArchivo(String criptomonedasPath) {
+	public static List<Criptomoneda> criptomonedaArchivo(String criptomonedasPath) {
 		Criptomoneda criptomoneda = null;
 		List<Criptomoneda> listCripto = new ArrayList<Criptomoneda>();
 		
@@ -74,7 +81,7 @@ public class Archivo {
 	}
 	
 	
-	public List<Mercado> estadoDelMercado(String mercadoPath) {
+	public static List<Mercado> estadoDelMercado(String mercadoPath) {
 		Mercado mercado = null;
 		List<Mercado> listMercado = new ArrayList<Mercado>();
 		

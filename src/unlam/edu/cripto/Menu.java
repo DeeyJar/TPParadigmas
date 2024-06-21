@@ -137,7 +137,6 @@ public class Menu {
 
 		Scanner sc = new Scanner(System.in);
 		String nombreCripto = sc.nextLine();
-		String format = "%-15s%-40s%s\n";
 		
 		Criptomoneda cripto =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
 		
@@ -146,9 +145,7 @@ public class Menu {
 		Mercado mercado = Mercado.getMercado(listMercado,cripto.getSimbolo());
 		
 		if(mercado != null) {
-			System.out.println("\nDatos del mercado:");
-			System.out.printf(format, "Capacidad", "Volumen en las últimas 24 horas", "Variación en los últimos 7 días");
-			System.out.printf(format, mercado.getCapacidad(), mercado.getVolumen(), mercado.getVariacion());
+			mercado.mostrarDatos();
 			System.out.println("\n-----------------\n");
 			System.out.println("Presiona Enter para continuar...\n");
 			sc.nextLine();

@@ -5,11 +5,10 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {		
-		Archivo archivo = new Archivo();
-		Usuario usuario = archivo.archivoUsuario();
+		Usuario usuario = Archivo.archivoUsuario();
 		
-		List<Criptomoneda> cripto =  archivo.criptomonedaArchivo("./criptomonedas.csv");
-		List<Mercado> merca = archivo.estadoDelMercado("./mercados.csv");
+		List<Criptomoneda> cripto =  Archivo.criptomonedaArchivo("./files/criptomonedas.csv");
+		List<Mercado> merca = Archivo.estadoDelMercado("./files/mercados.csv");
 		
 		if(usuario != null) {
 			System.out.println("Bienvenido " + usuario.getNombre());
