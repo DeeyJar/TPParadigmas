@@ -1,4 +1,4 @@
-package unlam.edu.cripto;
+package tp.unlam.edu.ar.criptomoneda;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,7 +10,7 @@ public class Mercado {
 	private BigDecimal volumen;
 	private BigDecimal variacion;
 	
-	public final String FORMAT = "%-15s%-40s%s\n";
+	public static final String FORMAT = "%-15s%-40s%s\n";
 	
 	public Mercado(String simbolo, BigDecimal capacidad, BigDecimal volumen, BigDecimal variacion) {
 		super();

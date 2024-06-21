@@ -1,4 +1,4 @@
-package unlam.edu.cripto;
+package tp.unlam.edu.ar.criptomoneda.utilidades;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,39 +9,49 @@ import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
+import tp.unlam.edu.ar.criptomoneda.Criptomoneda;
+import tp.unlam.edu.ar.criptomoneda.Mercado;
+import tp.unlam.edu.ar.criptomoneda.usuario.Usuario;
+import tp.unlam.edu.ar.criptomoneda.usuario.UsuarioAdministrador;
+import tp.unlam.edu.ar.criptomoneda.usuario.UsuarioTrader;
 
 public class Archivo {
+	
+	public static final int LENGHT_ADMIN = 2;
+
 	public static Usuario archivoUsuario() {
 		String usuarioPath = "./files/usuarios.csv";
-		Scanner sc = new Scanner(System.in);
 		String usuarioInput;
 		Usuario usuarioEncontrado = null;
-		System.out.print("Ingrese usuario: ");
-		usuarioInput = sc.nextLine(); 
+
+		usuarioInput = InputHelper.getString("Ingrese nombre de usuario: "); 
 		
         try (RandomAccessFile raf = new RandomAccessFile(usuarioPath, "rw")) {
             String line;
             while ((line = raf.readLine()) != null) {
                 String[] values = line.split(";");
                 if(usuarioInput.equals(values[0])) {
-                	if (values.length == 2) {
-                        //Admin
-                		usuarioEncontrado = new Usuario(values[0], values[1]);
-                    } else if (values.length == 4) {
-                        //Usuario
-                    	usuarioEncontrado = new Usuario(values[0], Long.parseLong(values[1]),values[2], new BigDecimal(values[3]));
+                	if (values.length == LENGHT_ADMIN) {
+                        // Admin
+                		usuarioEncontrado = new UsuarioAdministrador(values[0], values[1]);
+                    } else {
+                        // Usuario trader
+                    	usuarioEncontrado = new UsuarioTrader(values[0], Long.parseLong(values[1]),values[2], new BigDecimal(values[3]));
                     }
+                	break;
                 }
-                else {
-                	System.out.println("\nUsuario no encontrado. ");
-                	
-                	usuarioEncontrado = new Usuario(usuarioInput);
-                	usuarioEncontrado.completarRegistro();
-                	
-                	raf.seek(raf.length()); // Mover el puntero al final del archivo
-                    raf.writeBytes(usuarioEncontrado.toString());
-                }
+            }
+            
+            // si no encuentra el usuario, se realiza un registro de un usuario trader
+            if(usuarioEncontrado == null) {
+            	System.out.println("\nUsuario no encontrado. ");
+            	
+            	usuarioEncontrado = new UsuarioTrader(usuarioInput);
+            	((UsuarioTrader)usuarioEncontrado).completarRegistro();
+            	
+            	raf.seek(raf.length()); // Mover el puntero al final del archivo
+                raf.writeBytes(usuarioEncontrado.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +62,7 @@ public class Archivo {
 	
 	public static List<Criptomoneda> criptomonedaArchivo(String criptomonedasPath) {
 		Criptomoneda criptomoneda = null;
-		List<Criptomoneda> listCripto = new ArrayList<Criptomoneda>();
+		List<Criptomoneda> listCripto = new ArrayList<>();
 		
         try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
             String line;
@@ -69,7 +79,7 @@ public class Archivo {
 	}
 	
 	public static void modificarCriptomonedaArchivo(List<Criptomoneda> cripto) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./criptomonedas.csv"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./files/criptomonedas.csv"))) {
             for(Criptomoneda c : cripto) {
             	String line = c.toString();
             	writer.write(line);
@@ -83,7 +93,7 @@ public class Archivo {
 	
 	public static List<Mercado> estadoDelMercado(String mercadoPath) {
 		Mercado mercado = null;
-		List<Mercado> listMercado = new ArrayList<Mercado>();
+		List<Mercado> listMercado = new ArrayList<>();
 		
         try (BufferedReader br = new BufferedReader(new FileReader(mercadoPath))) {
             String line;
