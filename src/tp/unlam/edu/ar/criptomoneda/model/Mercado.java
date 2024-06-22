@@ -32,6 +32,11 @@ public class Mercado {
 		return encontrada;
 	}
 	
+	public static void agregarCriptoEnMercado(Criptomoneda cripto,List<Mercado> mercado) {
+		Mercado merca = new Mercado(cripto.getSimbolo(),new BigDecimal(500),new BigDecimal(1), new BigDecimal(1));
+		mercado.add(merca);
+	}
+	
 	public void mostrarDatos() {
 		System.out.println("\nDatos del mercado:");
 		System.out.printf(FORMAT, "Capacidad", "Volumen en las últimas 24 horas", "Variación en los últimos 7 días");

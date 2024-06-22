@@ -60,6 +60,11 @@ public class InputHelper {
         return value;
     }
     
+    public static void pauseSystem() {
+    	System.out.println("\n-----------------\n");
+    	getString("Presiona Enter para continuar...\n");
+    }
+    
     // Método para cerrar el scanner cuando ya no se necesite
     public static void close() {
         scanner.close();

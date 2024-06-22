@@ -18,8 +18,8 @@ public class Main {
 		setEncodingUTF8();
 		Usuario usuario = Archivo.obtenerORegistrarUsuario();
 		
-		List<Criptomoneda> cripto =  Archivo.criptomonedaArchivo("./files/criptomonedas.csv");
-		List<Mercado> merca = Archivo.estadoDelMercado("./files/mercados.csv");
+		List<Criptomoneda> cripto =  Archivo.criptomonedaArchivo();
+		List<Mercado> merca = Archivo.estadoDelMercado();
 		
 		System.out.println("Bienvenido " + usuario.getNombre());
 		if(usuario instanceof UsuarioAdministrador) {

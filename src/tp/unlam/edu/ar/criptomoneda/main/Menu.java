@@ -29,12 +29,15 @@ public class Menu {
 			
 			switch(menuAdmin) {
 				case 1:
-					crearCriptomoneda(cripto);
+					crearCriptomoneda(cripto,mercado);
 					// TODO crear mercado junto a la criptomoneda
 					break;
 				case 2:
-					modificarCriptomoneda(cripto);
+					modificarCriptomoneda(cripto,mercado);
 					// TODO modificar simbolo de mercado si modifica el simbolo
+					break;
+				case 3:
+					eliminarCriptomoneda(cripto);
 					break;
 				case 4:
 					consultarCriptomoneda(cripto);
@@ -50,6 +53,7 @@ public class Menu {
 		}while(menuAdmin != 6);
 		
 		Archivo.modificarCriptomonedaArchivo(cripto);
+		Archivo.modificarMercadoArchivo(mercado);
 	}
 	
 	public static void menuUsuario(List<Criptomoneda> cripto, List<Mercado> mercado) {
@@ -87,7 +91,7 @@ public class Menu {
 		}while(menuUsuario != 7);
 	}
 	
-	private static void crearCriptomoneda(List<Criptomoneda> listCripto) {
+	private static void crearCriptomoneda(List<Criptomoneda> listCripto, List<Mercado> mercado) {
 		System.out.println("---- Crear Criptomoneda ----");
 		String nombreCripto = InputHelper.getString("Ingrese el nombre de la criptomoneda: ");
 		
@@ -101,28 +105,30 @@ public class Menu {
 				BigDecimal precio = InputHelper.getBigDecimal("Ingrese el precio inicial: ");
 				Criptomoneda nuevaCripto = new Criptomoneda(nombreCripto,simboloCripto,precio);
 				listCripto.add(nuevaCripto);
+				Mercado.agregarCriptoEnMercado(nuevaCripto, mercado);
+				InputHelper.pauseSystem();
 			}else {
 				System.out.print("Simbolo ya existente, ¿desea modificar la criptomoneda"+ simboloLista.getNombre() + "?");
 				System.out.print("Si (S) o No (N): ");
-//				String modificarCripto = InputHelper.getString(); 
+				//llamar submenuModificarCripto (encontrada)
 			}
 		}else {
 			System.out.print("Simbolo ya existente, ¿desea modificar la criptomoneda"+ encontrada.getNombre() + "?");
 			System.out.print("Si (S) o No (N): ");
-//			String modificarCripto = InputHelper.getString(); 
 			// TODO retomar cuando creemos metodo de modificar cripto
+			//llamar submenuModificarCripto (encontrada)
 		}
 	}
 	
-	private static void modificarCriptomoneda(List<Criptomoneda> listCripto) {
-		System.out.println("--------- Crear Criptomoneda ---------");
+	private static void modificarCriptomoneda(List<Criptomoneda> listCripto,List<Mercado> listMercado) {
+		System.out.println("--------- Modificar Criptomoneda ---------");
 		String nombreCripto = InputHelper.getString("Ingrese el nombre de la criptomoneda a modificar: ");
 		int opcion;
 		
 		Criptomoneda encontrada =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
 		
 		if(encontrada != null) {
-			
+			//public static void subMenuModificar(Criptomoneda cripto) PARA EL SUBMENU
 			do {
 				System.out.println("Que datos de la criptomoneda quiere modificar?");
 				System.out.println("-----------------------------------------------");
@@ -135,31 +141,61 @@ public class Menu {
 				switch(opcion) {
 					case 1: 
 						String nombreModificado = InputHelper.getString("Ingrese el nuevo nombre: ");
-						
-						encontrada.setNombre(nombreModificado);
+						if(encontrada.getNombre().equalsIgnoreCase(nombreCripto)) {
+							System.out.println("Nombre criptomoneda ya existente.");
+						}else {
+							encontrada.setNombre(nombreModificado);
+							System.out.println("Nombre criptomoneda modificado exitosamente.");
+						}
+						InputHelper.pauseSystem();
 						break;
 					case 2:
 						String simboloModificado = InputHelper.getString("Ingrese el nuevo símbolo: ");
-						
-						// TODO agregar logica de merca
-						encontrada.setSimbolo(simboloModificado);
+						if(!encontrada.getSimbolo().equalsIgnoreCase(simboloModificado)) {
+							for(Mercado m : listMercado) {
+								if(m.getSimbolo().equalsIgnoreCase(encontrada.getSimbolo())) {
+									m.setSimbolo(simboloModificado);
+									break;
+								}
+							}
+							encontrada.setSimbolo(simboloModificado);
+							System.out.println("Simbolo criptomoneda modificado exitosamente.");
+						}else {
+							System.out.println("Simbolo ya existente.");
+						}
+						InputHelper.pauseSystem();
 						break;
 					case 3:
 						BigDecimal nuevoPrecio = InputHelper.getBigDecimal("Ingrese el nuevo precio de dolar base: ");
-						
 						encontrada.setPrecio(nuevoPrecio);
+						System.out.println("Precio criptomoneda modificado exitosamente.");
+						InputHelper.pauseSystem();
 						break;
 					case 4: break;
 					default: 
 						System.out.print("\nOpción incorrecta.");
 						break;
 				}
-				
 			} while (opcion != 4);
 
 		} else {
 			System.out.print("La criptomoneda "+ nombreCripto + " no existe.");
 		}
+	}
+	
+	private static void eliminarCriptomoneda(List<Criptomoneda> listCripto) {
+		System.out.println("--------- Eliminar Criptomoneda ---------");
+		String nombreCripto = InputHelper.getString("Ingrese el nombre de la criptomoneda a eliminar: ");
+		
+		Criptomoneda encontrada =  Criptomoneda.getCriptomoneda(listCripto,nombreCripto);
+		
+		if(encontrada != null) {
+			listCripto.remove(encontrada);
+			System.out.println("--------- Criptomoneda eliminada exitosamente ---------");
+		}else {
+			System.out.println("--------- No se encontro esa cripto ---------");
+		}
+		InputHelper.pauseSystem();
 	}
 	
 	private static void consultarCriptomoneda(List<Criptomoneda> listCripto) {
@@ -171,8 +207,7 @@ public class Menu {
 		
 		if(encontrada != null) {
 			encontrada.mostrarDatos();
-			System.out.println("\n-----------------\n");
-			InputHelper.getString("Presiona Enter para continuar...\n");
+			InputHelper.pauseSystem();
 		}
 		else {
 			System.out.println("No se encontró la criptomoneda.");
@@ -193,8 +228,7 @@ public class Menu {
 		
 		if(mercado != null) {
 			mercado.mostrarDatos();
-			System.out.println("\n------------------------------\n");
-			InputHelper.getString("Presiona Enter para continuar...\n");
+			InputHelper.pauseSystem();
 		}
 		else {
 			System.out.println("No se encontró la criptomoneda.");

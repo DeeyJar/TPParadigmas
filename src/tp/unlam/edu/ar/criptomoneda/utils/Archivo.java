@@ -20,6 +20,8 @@ public class Archivo {
 	
 	public static final int LENGHT_ADMIN = 2;
 	public static final String USUARIO_FILE_PATH = "./files/usuarios.csv";
+	public static final String CRIPTOMONEDA_FILE_PATH = "./files/criptomonedas.csv";
+	public static final String MERCADO_FILE_PATH = "./files/mercados.csv";
 
 	public static Usuario obtenerORegistrarUsuario() {
 		String usuarioInput;
@@ -60,11 +62,11 @@ public class Archivo {
         return usuarioEncontrado;
 	}
 	
-	public static List<Criptomoneda> criptomonedaArchivo(String criptomonedasPath) {
+	public static List<Criptomoneda> criptomonedaArchivo() {
 		Criptomoneda criptomoneda = null;
 		List<Criptomoneda> listCripto = new ArrayList<>();
 		
-        try (BufferedReader br = new BufferedReader(new FileReader(criptomonedasPath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CRIPTOMONEDA_FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
@@ -79,7 +81,7 @@ public class Archivo {
 	}
 	
 	public static void modificarCriptomonedaArchivo(List<Criptomoneda> cripto) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("./files/criptomonedas.csv"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CRIPTOMONEDA_FILE_PATH))) {
             for(Criptomoneda c : cripto) {
             	String line = c.toString();
             	writer.write(line);
@@ -90,12 +92,23 @@ public class Archivo {
         }
 	}
 	
+	public static void modificarMercadoArchivo(List<Mercado> mercado){
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(MERCADO_FILE_PATH))) {
+			for(Mercado m : mercado) {
+				String line = m.toString();
+	            writer.write(line);
+	            writer.newLine();
+			}
+       } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 	
-	public static List<Mercado> estadoDelMercado(String mercadoPath) {
+	public static List<Mercado> estadoDelMercado() {
 		Mercado mercado = null;
 		List<Mercado> listMercado = new ArrayList<>();
 		
-        try (BufferedReader br = new BufferedReader(new FileReader(mercadoPath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(MERCADO_FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
