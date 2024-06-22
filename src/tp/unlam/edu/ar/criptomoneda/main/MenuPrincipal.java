@@ -69,11 +69,9 @@ public class MenuPrincipal {
         switch (opcion) {
 	        case 1:
 				CriptomonedaManager.crearCriptomoneda();
-				// TODO crear mercado junto a la criptomoneda
 				break;
 			case 2:
 				CriptomonedaManager.modificarCriptomoneda();
-				// TODO modificar simbolo de mercado si modifica el simbolo
 				break;
 			case 3:
 				CriptomonedaManager.eliminarCriptomoneda();
@@ -84,7 +82,7 @@ public class MenuPrincipal {
 			case 5:
 				MercadoManager.consultarEstadoDelMercado();
 				break;
-            case 7: break;
+            case 6: break;
             default:
                 System.out.println("Opción no válida");
         }

@@ -20,19 +20,20 @@ public class MercadoManager {
 		String nombreCripto = InputHelper.getString("Ingrese el nombre de la criptomoneda: ");
 		
 		Criptomoneda cripto =  CriptomonedaManager.buscarCriptomonedaPorNombre(nombreCripto);
-		
-		assert cripto != null : "No existe esa cripto rey"; // TODO refactor (ver posible NoEncontradaException)
-		
-		Mercado mercado = buscarMercadoPorSimbolo(cripto.getSimbolo());
-		
-		if(mercado != null) {
-			mostrarDatosMercado(mercado);
-			InputHelper.pauseSystem();
-		}
-		else {
+		if(cripto != null) {
+			Mercado mercado = buscarMercadoPorSimbolo(cripto.getSimbolo());
+			
+			if(mercado != null) {
+				mostrarDatosMercado(mercado);
+				InputHelper.pauseSystem();
+			}
+			else {
+				System.out.println("No se encontró la criptomoneda.");
+			}
+		}else {
 			System.out.println("No se encontró la criptomoneda.");
 		}
-	}
+	}	
 	
 	public static Mercado buscarMercadoPorSimbolo(String simboloCripto) {
 		Mercado encontrada = null;
