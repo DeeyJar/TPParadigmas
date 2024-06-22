@@ -18,12 +18,38 @@ import tp.unlam.edu.ar.criptomoneda.model.UsuarioTrader;
 
 public class Archivo {
 	
-	public static final int LENGHT_ADMIN = 2;
-	public static final String USUARIO_FILE_PATH = "./files/usuarios.csv";
-	public static final String CRIPTOMONEDA_FILE_PATH = "./files/criptomonedas.csv";
-	public static final String MERCADO_FILE_PATH = "./files/mercados.csv";
+	private static final int LENGHT_ADMIN = 2;
+	private static final String USUARIO_FILE_PATH = "./files/usuarios.csv";
+	private static final String CRIPTOMONEDA_FILE_PATH = "./files/criptomonedas.csv";
+	private static final String MERCADO_FILE_PATH = "./files/mercados.csv";
 
-	public static Usuario obtenerORegistrarUsuario() {
+	private static Archivo instancia = null;
+	private List<Criptomoneda> listaCriptomonedas;
+	private List<Mercado> listaMercados;
+	private Usuario usuario;
+	
+	private Archivo() {}
+	
+	public static Archivo getInstancia() {
+		if(instancia == null) {
+			instancia = new Archivo(); 
+		}
+		return instancia;
+	}
+	
+	public List<Criptomoneda> getListaCriptomonedas() {
+		return listaCriptomonedas;
+	}
+
+	public List<Mercado> getListaMercados() {
+		return listaMercados;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void obtenerORegistrarUsuario() {
 		String usuarioInput;
 		Usuario usuarioEncontrado = null;
 
@@ -59,10 +85,34 @@ public class Archivo {
             e.printStackTrace();
         }
         
-        return usuarioEncontrado;
+        this.usuario = usuarioEncontrado;
 	}
 	
-	public static List<Criptomoneda> criptomonedaArchivo() {
+	public void guardarCambiosCriptomoneda() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CRIPTOMONEDA_FILE_PATH))) {
+            for(Criptomoneda c: this.listaCriptomonedas) {
+            	String line = c.toString();
+            	writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void guardarCambiosMercado(){
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(MERCADO_FILE_PATH))) {
+			for(Mercado m: this.listaMercados) {
+				String line = m.toString();
+	            writer.write(line);
+	            writer.newLine();
+			}
+       } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void guardarListaCriptomonedasDeArchivo() {
 		Criptomoneda criptomoneda = null;
 		List<Criptomoneda> listCripto = new ArrayList<>();
 		
@@ -76,35 +126,11 @@ public class Archivo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-         
-        return listCripto;
+        
+        this.listaCriptomonedas = listCripto;
 	}
 	
-	public static void modificarCriptomonedaArchivo(List<Criptomoneda> cripto) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CRIPTOMONEDA_FILE_PATH))) {
-            for(Criptomoneda c : cripto) {
-            	String line = c.toString();
-            	writer.write(line);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
-	
-	public static void modificarMercadoArchivo(List<Mercado> mercado){
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(MERCADO_FILE_PATH))) {
-			for(Mercado m : mercado) {
-				String line = m.toString();
-	            writer.write(line);
-	            writer.newLine();
-			}
-       } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
-	
-	public static List<Mercado> estadoDelMercado() {
+	public void guardarListaMercadosDeArchivo() {
 		Mercado mercado = null;
 		List<Mercado> listMercado = new ArrayList<>();
 		
@@ -119,6 +145,6 @@ public class Archivo {
             e.printStackTrace();
         }
         
-        return listMercado;
+        this.listaMercados = listMercado;
 	}
 }

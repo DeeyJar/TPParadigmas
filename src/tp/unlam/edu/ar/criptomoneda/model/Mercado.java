@@ -1,6 +1,7 @@
 package tp.unlam.edu.ar.criptomoneda.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class Mercado {
@@ -10,37 +11,12 @@ public class Mercado {
 	private BigDecimal volumen;
 	private BigDecimal variacion;
 	
-	public static final String FORMAT = "%-15s%-40s%s\n";
-	
 	public Mercado(String simbolo, BigDecimal capacidad, BigDecimal volumen, BigDecimal variacion) {
 		super();
-		this.simbolo = simbolo;
-		this.capacidad = capacidad;
-		this.volumen = volumen;
-		this.variacion = variacion;
-	}
-	
-	public static Mercado getMercado(List<Mercado> mercado, String simboloCripto) {
-		Mercado encontrada = null;
-		for(Mercado m : mercado) {
-			if(simboloCripto.equalsIgnoreCase(m.getSimbolo())) {
-				encontrada = m;
-				break;
-			}
-		}
-		
-		return encontrada;
-	}
-	
-	public static void agregarCriptoEnMercado(Criptomoneda cripto,List<Mercado> mercado) {
-		Mercado merca = new Mercado(cripto.getSimbolo(),new BigDecimal(500),new BigDecimal(1), new BigDecimal(1));
-		mercado.add(merca);
-	}
-	
-	public void mostrarDatos() {
-		System.out.println("\nDatos del mercado:");
-		System.out.printf(FORMAT, "Capacidad", "Volumen en las últimas 24 horas", "Variación en los últimos 7 días");
-		System.out.printf(FORMAT, this.getCapacidad(), this.getVolumen(), this.getVariacion());
+		this.simbolo = simbolo.toUpperCase();
+		this.capacidad = capacidad.setScale(2,RoundingMode.HALF_UP);
+		this.volumen = volumen.setScale(2,RoundingMode.HALF_UP);
+		this.variacion = variacion.setScale(2,RoundingMode.HALF_UP);
 	}
 
 	public String getSimbolo() {

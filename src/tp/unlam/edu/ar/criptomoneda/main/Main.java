@@ -15,17 +15,23 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		Archivo archivo = Archivo.getInstancia();
+		Usuario usuario = null;
 		setEncodingUTF8();
-		Usuario usuario = Archivo.obtenerORegistrarUsuario();
 		
-		List<Criptomoneda> cripto =  Archivo.criptomonedaArchivo();
-		List<Mercado> merca = Archivo.estadoDelMercado();
+		archivo.obtenerORegistrarUsuario();
+		archivo.guardarListaCriptomonedasDeArchivo();
+		archivo.guardarListaMercadosDeArchivo();
+		
+		usuario = archivo.getUsuario();
 		
 		System.out.println("Bienvenido " + usuario.getNombre());
+		MenuPrincipal.mostrarMenuPrincipal(usuario);
+		
+		archivo.guardarCambiosMercado();
+		
 		if(usuario instanceof UsuarioAdministrador) {
-			Menu.menuAdministrador(cripto,merca);
-		}else {
-			Menu.menuUsuario(cripto,merca);
+			archivo.guardarCambiosCriptomoneda();	
 		}
 		
 		InputHelper.close();

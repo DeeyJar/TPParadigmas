@@ -51,9 +51,6 @@ public class Menu {
 					break;
 			}
 		}while(menuAdmin != 6);
-		
-		Archivo.modificarCriptomonedaArchivo(cripto);
-		Archivo.modificarMercadoArchivo(mercado);
 	}
 	
 	public static void menuUsuario(List<Criptomoneda> cripto, List<Mercado> mercado) {
