@@ -1,4 +1,4 @@
-package tp.unlam.edu.ar.criptomoneda.utilidades;
+package tp.unlam.edu.ar.criptomoneda.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,24 +10,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import tp.unlam.edu.ar.criptomoneda.Criptomoneda;
-import tp.unlam.edu.ar.criptomoneda.Mercado;
-import tp.unlam.edu.ar.criptomoneda.usuario.Usuario;
-import tp.unlam.edu.ar.criptomoneda.usuario.UsuarioAdministrador;
-import tp.unlam.edu.ar.criptomoneda.usuario.UsuarioTrader;
+import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
+import tp.unlam.edu.ar.criptomoneda.model.Mercado;
+import tp.unlam.edu.ar.criptomoneda.model.Usuario;
+import tp.unlam.edu.ar.criptomoneda.model.UsuarioAdministrador;
+import tp.unlam.edu.ar.criptomoneda.model.UsuarioTrader;
 
 public class Archivo {
 	
 	public static final int LENGHT_ADMIN = 2;
+	public static final String USUARIO_FILE_PATH = "./files/usuarios.csv";
 
-	public static Usuario archivoUsuario() {
-		String usuarioPath = "./files/usuarios.csv";
+	public static Usuario obtenerORegistrarUsuario() {
 		String usuarioInput;
 		Usuario usuarioEncontrado = null;
 
 		usuarioInput = InputHelper.getString("Ingrese nombre de usuario: "); 
 		
-        try (RandomAccessFile raf = new RandomAccessFile(usuarioPath, "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(USUARIO_FILE_PATH, "rw")) {
             String line;
             while ((line = raf.readLine()) != null) {
                 String[] values = line.split(";");

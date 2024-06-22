@@ -1,8 +1,8 @@
-package tp.unlam.edu.ar.criptomoneda.usuario;
+package tp.unlam.edu.ar.criptomoneda.model;
 
 import java.math.BigDecimal;
 
-import tp.unlam.edu.ar.criptomoneda.utilidades.InputHelper;
+import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
 public class UsuarioTrader extends Usuario {
 	

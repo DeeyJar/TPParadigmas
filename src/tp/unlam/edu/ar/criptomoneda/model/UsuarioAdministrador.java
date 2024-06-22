@@ -1,4 +1,4 @@
-package tp.unlam.edu.ar.criptomoneda.usuario;
+package tp.unlam.edu.ar.criptomoneda.model;
 
 public class UsuarioAdministrador extends Usuario {
 	

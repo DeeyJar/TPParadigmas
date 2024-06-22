@@ -1,4 +1,4 @@
-package tp.unlam.edu.ar.criptomoneda.utilidades;
+package tp.unlam.edu.ar.criptomoneda.utils;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -12,6 +12,10 @@ public class InputHelper {
         return scanner.nextLine();
     }
 
+    public static boolean hasNextInt() {
+        return scanner.hasNextInt();
+    }
+    
     public static int getInt(String descripcion) {
         System.out.print(descripcion);
         while (!scanner.hasNextInt()) {
@@ -24,6 +28,10 @@ public class InputHelper {
         return value;
     }
 
+    public static boolean hasNextBigDecimal() {
+        return scanner.hasNextBigDecimal();
+    }
+    
     public static BigDecimal getBigDecimal(String descripcion) {
         System.out.print(descripcion);
         while (!scanner.hasNextBigDecimal()) {
@@ -34,6 +42,10 @@ public class InputHelper {
         BigDecimal value = scanner.nextBigDecimal();
         scanner.nextLine(); // Limpiar el buffer
         return value;
+    }
+    
+    public static boolean hasNextLong() {
+        return scanner.hasNextLong();
     }
     
     public static long getLong(String descripcion) {

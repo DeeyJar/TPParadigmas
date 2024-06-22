@@ -1,4 +1,4 @@
-package tp.unlam.edu.ar.criptomoneda;
+package tp.unlam.edu.ar.criptomoneda.model;
 
 import java.math.BigDecimal;
 import java.util.List;

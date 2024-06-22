@@ -1,10 +1,12 @@
-package tp.unlam.edu.ar.criptomoneda.utilidades;
+package tp.unlam.edu.ar.criptomoneda.main;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import tp.unlam.edu.ar.criptomoneda.Criptomoneda;
-import tp.unlam.edu.ar.criptomoneda.Mercado;
+import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
+import tp.unlam.edu.ar.criptomoneda.model.Mercado;
+import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
+import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
 public class Menu {
 	
@@ -114,7 +116,6 @@ public class Menu {
 	
 	private static void modificarCriptomoneda(List<Criptomoneda> listCripto) {
 		System.out.println("--------- Crear Criptomoneda ---------");
-		System.out.println("Ingrese el nombre de la criptomoneda a modificar: ");
 		String nombreCripto = InputHelper.getString("Ingrese el nombre de la criptomoneda a modificar: ");
 		int opcion;
 		
