@@ -2,8 +2,10 @@ package tp.unlam.edu.ar.criptomoneda.main;
 
 import tp.unlam.edu.ar.criptomoneda.manager.CriptomonedaManager;
 import tp.unlam.edu.ar.criptomoneda.manager.MercadoManager;
+import tp.unlam.edu.ar.criptomoneda.manager.UsuarioTraderManager;
 import tp.unlam.edu.ar.criptomoneda.model.Usuario;
 import tp.unlam.edu.ar.criptomoneda.model.UsuarioAdministrador;
+import tp.unlam.edu.ar.criptomoneda.model.UsuarioTrader;
 import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
 public class MenuPrincipal {
@@ -91,7 +93,7 @@ public class MenuPrincipal {
     private static void manejarOpcionesTrader(int opcion) {
         switch (opcion) {
 	        case 1:
-				System.out.println("Hola");
+				UsuarioTraderManager.comprarCriptomoneda();
 				break;
 			case 3:
 				CriptomonedaManager.consultarCriptomoneda();

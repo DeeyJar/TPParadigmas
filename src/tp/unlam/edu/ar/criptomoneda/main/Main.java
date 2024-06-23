@@ -32,6 +32,8 @@ public class Main {
 		
 		if(usuario instanceof UsuarioAdministrador) {
 			archivo.guardarCambiosCriptomoneda();	
+		}else {
+			archivo.guardarCambiosArchivoUsuario();
 		}
 		
 		InputHelper.close();

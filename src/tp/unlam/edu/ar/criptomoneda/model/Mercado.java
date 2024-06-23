@@ -1,22 +1,19 @@
 package tp.unlam.edu.ar.criptomoneda.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-
 public class Mercado {
-
+	public static final float PORCENTAJE = 100;
+	public static final float AUMENTO = 5;
 	private String simbolo;
-	private BigDecimal capacidad;
-	private BigDecimal volumen;
-	private BigDecimal variacion;
+	private long capacidad;
+	private float volumen;
+	private float variacion;
 	
-	public Mercado(String simbolo, BigDecimal capacidad, BigDecimal volumen, BigDecimal variacion) {
+	public Mercado(String simbolo, long capacidad, float volumen, float variacion) {
 		super();
 		this.simbolo = simbolo.toUpperCase();
-		this.capacidad = capacidad.setScale(2,RoundingMode.HALF_UP);
-		this.volumen = volumen.setScale(2,RoundingMode.HALF_UP);
-		this.variacion = variacion.setScale(2,RoundingMode.HALF_UP);
+		this.capacidad = capacidad;
+		this.volumen = volumen;
+		this.variacion = variacion;
 	}
 
 	public String getSimbolo() {
@@ -27,30 +24,42 @@ public class Mercado {
 		this.simbolo = simbolo;
 	}
 
-	public BigDecimal getCapacidad() {
+	public long getCapacidad() {
 		return capacidad;
 	}
 
-	public void setCapacidad(BigDecimal capacidad) {
+	public void setCapacidad(long capacidad) {
 		this.capacidad = capacidad;
 	}
 
-	public BigDecimal getVolumen() {
+	public float getVolumen() {
 		return volumen;
 	}
 
-	public void setVolumen(BigDecimal volumen) {
+	public void setVolumen(float volumen) {
 		this.volumen = volumen;
 	}
 
-	public BigDecimal getVariacion() {
+	public float getVariacion() {
 		return variacion;
 	}
 
-	public void setVariacion(BigDecimal variacion) {
+	public void setVariacion(float variacion) {
 		this.variacion = variacion;
 	}
 
+	public void setCapacidadCompra(long compra) {
+		this.capacidad -= compra;
+	}
+	
+	public void setVolumenCompra() {
+		this.volumen += (this.volumen * AUMENTO)/PORCENTAJE;
+	}
+	
+	public void setVariacionCompra() {
+		this.variacion += (this.volumen * AUMENTO)/PORCENTAJE;
+	}
+	
 	@Override
 	public String toString() {
 		return simbolo + ";" + capacidad + ";" + volumen + ";" + variacion;

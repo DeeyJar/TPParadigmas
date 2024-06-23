@@ -48,10 +48,7 @@ public class MercadoManager {
 	}
 	
 	public static void agregarCriptomonedaEnMercado(Criptomoneda criptomoneda) {
-		Mercado agregar = new Mercado(criptomoneda.getSimbolo(),
-									  new BigDecimal(500),
-									  new BigDecimal(1), 
-									  new BigDecimal(1));
+		Mercado agregar = new Mercado(criptomoneda.getSimbolo(),500,1,1);
 		archivo.getListaMercados().add(agregar);
 	}
 	
@@ -59,6 +56,10 @@ public class MercadoManager {
 		System.out.println("\nDatos del mercado:");
 		System.out.printf(FORMAT, "Capacidad", "Volumen en las últimas 24 horas", "Variación en los últimos 7 días");
 		System.out.printf(FORMAT, m.getCapacidad(), m.getVolumen(), m.getVariacion());
+	}
+	
+	public static void modificarDatosMercado() {
+		
 	}
 
 }

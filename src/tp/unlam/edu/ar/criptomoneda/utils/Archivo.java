@@ -65,7 +65,7 @@ public class Archivo {
                 		usuarioEncontrado = new UsuarioAdministrador(values[0], values[1]);
                     } else {
                         // Usuario trader
-                    	usuarioEncontrado = new UsuarioTrader(values[0], Long.parseLong(values[1]),values[2], new BigDecimal(values[3]));
+                    	usuarioEncontrado = new UsuarioTrader(values[0],Long.parseLong(values[1]),values[2], new BigDecimal(values[3]));
                     }
                 	break;
                 }
@@ -138,7 +138,7 @@ public class Archivo {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
-                mercado = new Mercado(values[0], new BigDecimal(values[1]), new BigDecimal(values[2]), new BigDecimal(values[3]));
+                mercado = new Mercado(values[0], Long.parseLong(values[1]), Float.parseFloat(values[2]),Float.parseFloat(values[3]));
                 listMercado.add(mercado);
             }
         } catch (IOException e) {
@@ -146,5 +146,24 @@ public class Archivo {
         }
         
         this.listaMercados = listMercado;
+	}
+	
+	public void guardarCambiosArchivoUsuario() {
+		UsuarioTrader usuario = (UsuarioTrader)getUsuario();
+		try (RandomAccessFile raf = new RandomAccessFile(USUARIO_FILE_PATH, "rw")) {
+            String line;
+            while ((line = raf.readLine()) != null) {
+                String[] values = line.split(";");
+                if(usuario.getNombre().equals(values[0])) {
+                	if (values.length == LENGHT_ADMIN) {
+                		raf.seek(raf.length());
+                		raf.writeBytes(usuario.toString());
+                		break;
+                    }
+                }
+			}
+       } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 }

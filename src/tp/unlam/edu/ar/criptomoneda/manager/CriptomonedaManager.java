@@ -13,6 +13,7 @@ public class CriptomonedaManager {
 
 	private static Archivo archivo = Archivo.getInstancia();
 	public static final String FORMAT = "%-20s%-20s%s";
+	public static final String FORMAT_COMPRA = "%-20s%-20s%-20s%s";
 	
 	public static void crearCriptomoneda() {
 		System.out.println("----------- Crear Criptomoneda -----------");
@@ -95,6 +96,13 @@ public class CriptomonedaManager {
 		System.out.printf(FORMAT, "Nombre:" + c.getNombre()
 								, "Alias:" + c.getSimbolo()
 								, "Precio:" + c.getPrecio());
+	}
+	
+	public static void mostrarDatosCompra(Criptomoneda cripto, Long cantidad) {
+		System.out.printf(FORMAT_COMPRA, "Nombre:" + cripto.getNombre()
+		, "Alias:" + cripto.getSimbolo()
+		, "Precio:" + cripto.getPrecio()
+		, "Cantidad:" + cantidad);
 	}
 	
 	public static void modificarCriptomoneda() {
