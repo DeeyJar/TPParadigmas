@@ -9,6 +9,7 @@ import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
 import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
 public class UsuarioTraderManager {
+	
 	private static Archivo archivo = Archivo.getInstancia();
 	
 	public static void comprarCriptomoneda() {

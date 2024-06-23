@@ -49,7 +49,7 @@ public class InputHelper {
     }
     
     public static void pauseSystem() {
-    	System.out.println("\n-----------------\n");
+    	System.out.print("\n---------------------------------");
     	getString("Presiona Enter para continuar...\n");
     }
     

@@ -12,8 +12,8 @@ import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 public class CriptomonedaManager {
 
 	private static Archivo archivo = Archivo.getInstancia();
-	public static final String FORMAT = "%-20s%-20s%s";
-	public static final String FORMAT_COMPRA = "%-20s%-20s%-20s%s";
+	public static final String FORMAT = "\n%-20s%-20s%s\n";
+	public static final String FORMAT_COMPRA = "\n%-20s%-20s%-20s%s\n";
 	
 	public static void crearCriptomoneda() {
 		System.out.println("----------- Crear Criptomoneda -----------");

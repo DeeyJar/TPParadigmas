@@ -1,8 +1,12 @@
 package tp.unlam.edu.ar.criptomoneda.model;
 
+import java.util.Locale;
+
 public class Mercado {
 	public static final float PORCENTAJE = 100;
 	public static final float AUMENTO = 5;
+	public static final String FORMAT = "%s;%d;%.2f%%;%+.2f%%";
+	
 	private String simbolo;
 	private long capacidad;
 	private float volumen;
@@ -53,15 +57,15 @@ public class Mercado {
 	}
 	
 	public void setVolumenCompra() {
-		this.volumen += (this.volumen * AUMENTO)/PORCENTAJE;
+		this.volumen += (this.volumen * AUMENTO) / PORCENTAJE;
 	}
 	
 	public void setVariacionCompra() {
-		this.variacion += (this.volumen * AUMENTO)/PORCENTAJE;
+		this.variacion += (this.volumen * AUMENTO) / PORCENTAJE;
 	}
 	
 	@Override
 	public String toString() {
-		return simbolo + ";" + capacidad + ";" + volumen + ";" + variacion;
+		return String.format(Locale.US, FORMAT, simbolo, capacidad, volumen, variacion);
 	}
 }

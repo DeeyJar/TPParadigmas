@@ -41,15 +41,12 @@ public class SubmenuModificarCriptomoneda {
     private static boolean manejarOpciones(int choice,Criptomoneda criptomoneda) {
         switch (choice) {
             case 1:
-                System.out.println("Has seleccionado Sub-opción 1.1");
                 CriptomonedaManager.modificarNombreCriptomoneda(criptomoneda);
                 return false;
             case 2:
-                System.out.println("Has seleccionado Sub-opción 1.2");
                 CriptomonedaManager.modificarSimboloCriptomoneda(criptomoneda);
                 return false;
             case 3:
-            	 System.out.println("Has seleccionado Sub-opción 1.3");
             	 CriptomonedaManager.modificarPrecioCriptomoneda(criptomoneda);
                 return false;
             case 4:
@@ -72,6 +69,5 @@ public class SubmenuModificarCriptomoneda {
     	default:
             System.out.println("Opción no válida");
     	}
-    	
     }
 }

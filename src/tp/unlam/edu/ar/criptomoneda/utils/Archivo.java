@@ -138,7 +138,10 @@ public class Archivo {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
-                mercado = new Mercado(values[0], Long.parseLong(values[1]), Float.parseFloat(values[2]),Float.parseFloat(values[3]));
+                mercado = new Mercado(values[0], 
+                		Long.parseLong(values[1]), 
+                		Float.parseFloat(values[2].replace("%", "")),
+                		Float.parseFloat(values[3].replace("%", "")));
                 listMercado.add(mercado);
             }
         } catch (IOException e) {
