@@ -2,6 +2,7 @@ package tp.unlam.edu.ar.criptomoneda.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
+import tp.unlam.edu.ar.criptomoneda.model.Historico;
 import tp.unlam.edu.ar.criptomoneda.model.Mercado;
 import tp.unlam.edu.ar.criptomoneda.model.Usuario;
 import tp.unlam.edu.ar.criptomoneda.model.UsuarioAdministrador;
@@ -26,6 +28,7 @@ public class Archivo {
 	private static Archivo instancia = null;
 	private List<Criptomoneda> listaCriptomonedas;
 	private List<Mercado> listaMercados;
+	private List<Historico> listaHistorico;
 	private Usuario usuario;
 	
 	private Archivo() {}
@@ -43,6 +46,10 @@ public class Archivo {
 
 	public List<Mercado> getListaMercados() {
 		return listaMercados;
+	}
+	
+	public List<Historico> getListaHistorico() {
+		return listaHistorico;
 	}
 	
 	public Usuario getUsuario() {
@@ -79,7 +86,10 @@ public class Archivo {
             	((UsuarioTrader)usuarioEncontrado).completarRegistro();
             	
             	raf.seek(raf.length()); // Mover el puntero al final del archivo
+            	raf.writeBytes("\n");
                 raf.writeBytes(usuarioEncontrado.toString());
+                
+                crearArchivoHistoricoUsuario(usuarioEncontrado.getNombre());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,7 +122,7 @@ public class Archivo {
         }
 	}
 	
-	public void guardarListaCriptomonedasDeArchivo() {
+	public void obtenerListaCriptomonedasDeArchivo() {
 		Criptomoneda criptomoneda = null;
 		List<Criptomoneda> listCripto = new ArrayList<>();
 		
@@ -130,7 +140,7 @@ public class Archivo {
         this.listaCriptomonedas = listCripto;
 	}
 	
-	public void guardarListaMercadosDeArchivo() {
+	public void obtenerListaMercadosDeArchivo() {
 		Mercado mercado = null;
 		List<Mercado> listMercado = new ArrayList<>();
 		
@@ -156,14 +166,65 @@ public class Archivo {
 		try (RandomAccessFile raf = new RandomAccessFile(USUARIO_FILE_PATH, "rw")) {
             String line;
             while ((line = raf.readLine()) != null) {
+            	int pos = line.length();
+            	long posicionActual = raf.getFilePointer();
+            	long aux = posicionActual - pos;
                 String[] values = line.split(";");
                 if(usuario.getNombre().equals(values[0])) {
-                	if (values.length == LENGHT_ADMIN) {
-                		raf.seek(raf.length());
-                		raf.writeBytes(usuario.toString());
-                		break;
-                    }
+                	raf.seek(aux);
+                	raf.writeBytes(usuario.toString());
+                	break;
                 }
+			}
+       } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public void crearArchivoHistoricoUsuario(String nombreUsuario) {
+		String rutaArchivo = "./files/" + nombreUsuario + "_historico.csv";
+		File nuevoArchivo = new File(rutaArchivo);
+		
+		try {
+			if(!nuevoArchivo.exists()) {
+				boolean creado = nuevoArchivo.createNewFile();
+				if(creado) {
+					System.out.println("El archivo ha sido creado exitosamente.");
+				}else {
+					System.out.println("El archivo no pudo ser creado.");
+				}
+			}
+		}catch (IOException e) {
+            System.out.println("Ocurrió un error al intentar crear el archivo.");
+            e.printStackTrace();
+        }
+	}
+	
+	public void obtenerListaHistoricoDeArchivo() {
+		Historico historial = null;
+		List<Historico> listHistorico = new ArrayList<>();
+		String path = "./files/" + this.usuario.getNombre() + "_historico.csv";
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                historial = new Historico(values[0], Long.parseLong(values[1]));
+                listHistorico.add(historial);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        this.listaHistorico = listHistorico;
+	}
+	
+	public void guardarCambiosHistoricoArchivo() {
+		String path = "./files/" + this.usuario.getNombre() + "_historico.csv";
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+			for(Historico m: this.listaHistorico) {
+				String line = m.toString();
+	            writer.write(line);
+	            writer.newLine();
 			}
        } catch (IOException e) {
             e.printStackTrace();

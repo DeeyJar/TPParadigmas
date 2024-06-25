@@ -95,6 +95,9 @@ public class MenuPrincipal {
 	        case 1:
 				UsuarioTraderManager.comprarCriptomoneda();
 				break;
+	        case 2:
+	        	UsuarioTraderManager.ventaCriptomoneda();
+				break;
 			case 3:
 				CriptomonedaManager.consultarCriptomoneda();
 				break;

@@ -3,6 +3,7 @@ package tp.unlam.edu.ar.criptomoneda.manager;
 import java.math.BigDecimal;
 
 import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
+import tp.unlam.edu.ar.criptomoneda.model.Historico;
 import tp.unlam.edu.ar.criptomoneda.model.Mercado;
 import tp.unlam.edu.ar.criptomoneda.model.UsuarioTrader;
 import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
@@ -27,7 +28,7 @@ public class UsuarioTraderManager {
 					BigDecimal montoTotal = cripto.getPrecio().multiply(new BigDecimal(cantidad));
 					if(usuario.getSaldoActual().compareTo(montoTotal) >= 0) {
 						System.out.println("Monto total:" + montoTotal);
-						String confimarCompra = InputHelper.getString("Confirmar compra\n Si(1) o No(2): ");
+						String confimarCompra = InputHelper.getString("Confirmar compra\n Si(s) o No(n): ");
 						switch(confimarCompra) {
 							case "s":
 							case "S":
@@ -36,6 +37,8 @@ public class UsuarioTraderManager {
 								mercado.setCapacidadCompra(cantidad);
 								mercado.setVolumenCompra();
 								mercado.setVariacionCompra();
+								HistoricoManager.actualizarCantidad(mercado.getSimbolo(),cantidad);
+								System.out.println("Compra exitosa.");
 								break;
 							case "n":
 							case "N":
@@ -55,5 +58,25 @@ public class UsuarioTraderManager {
 			System.out.println("----------- No se encontro la criptomoneda -----------");
 		}
 		InputHelper.pauseSystem();
+	}
+	
+	public static void ventaCriptomoneda() {
+		System.out.println("----------- Venta Criptomoneda -----------");
+		HistoricoManager.mostrarHistorico();
+		String simboloCripto = InputHelper.getString("Ingrese el simbolo de la criptomoneda: ");
+		
+		Historico historial = HistoricoManager.buscarSimboloDelHistorico(simboloCripto);
+		Criptomoneda cripto = CriptomonedaManager.buscarCriptomonedaPorSimbolo(simboloCripto);
+		Mercado mercado = MercadoManager.buscarMercadoPorSimbolo(simboloCripto);
+		
+		if(historial != null && cripto != null) {
+			long ventaCripto = InputHelper.getLong("Ingrese la cantidad de venta: ");
+			if(ventaCripto <= historial.getCapacidad()) {
+				
+			}
+		}
+		else{
+			System.out.println("No se encontro la criptomoneda.");
+		}
 	}
 }

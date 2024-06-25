@@ -8,6 +8,7 @@ import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
 import tp.unlam.edu.ar.criptomoneda.model.Mercado;
 import tp.unlam.edu.ar.criptomoneda.model.Usuario;
 import tp.unlam.edu.ar.criptomoneda.model.UsuarioAdministrador;
+import tp.unlam.edu.ar.criptomoneda.model.UsuarioTrader;
 import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
 import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
@@ -20,10 +21,14 @@ public class Main {
 		setEncodingUTF8();
 		
 		archivo.obtenerORegistrarUsuario();
-		archivo.guardarListaCriptomonedasDeArchivo();
-		archivo.guardarListaMercadosDeArchivo();
+		archivo.obtenerListaCriptomonedasDeArchivo();
+		archivo.obtenerListaMercadosDeArchivo();
 		
 		usuario = archivo.getUsuario();
+		
+		if(usuario instanceof UsuarioTrader) {
+			archivo.obtenerListaHistoricoDeArchivo();
+		}
 		
 		System.out.println("Bienvenido " + usuario.getNombre());
 		MenuPrincipal.mostrarMenuPrincipal(usuario);
@@ -34,6 +39,7 @@ public class Main {
 			archivo.guardarCambiosCriptomoneda();	
 		}else {
 			archivo.guardarCambiosArchivoUsuario();
+			archivo.guardarCambiosHistoricoArchivo();
 		}
 		
 		InputHelper.close();
