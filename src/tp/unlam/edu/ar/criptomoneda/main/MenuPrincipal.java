@@ -1,6 +1,7 @@
 package tp.unlam.edu.ar.criptomoneda.main;
 
 import tp.unlam.edu.ar.criptomoneda.manager.CriptomonedaManager;
+import tp.unlam.edu.ar.criptomoneda.manager.HistoricoManager;
 import tp.unlam.edu.ar.criptomoneda.manager.MercadoManager;
 import tp.unlam.edu.ar.criptomoneda.manager.UsuarioTraderManager;
 import tp.unlam.edu.ar.criptomoneda.model.Usuario;
@@ -101,8 +102,15 @@ public class MenuPrincipal {
 			case 3:
 				CriptomonedaManager.consultarCriptomoneda();
 				break;
+			case 4:
+				MercadoManager.recomendarCriptomoneda();
+				break;
 			case 5:
 				MercadoManager.consultarEstadoDelMercado();
+				break;
+			case 6:
+				HistoricoManager.mostrarHistorico();
+				InputHelper.pauseSystem();
 				break;
             case 7: break;
             default:

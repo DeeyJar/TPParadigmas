@@ -1,5 +1,9 @@
 package tp.unlam.edu.ar.criptomoneda.manager;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
 import tp.unlam.edu.ar.criptomoneda.model.Criptomoneda;
 import tp.unlam.edu.ar.criptomoneda.model.Mercado;
 import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
@@ -59,8 +63,24 @@ public class MercadoManager {
 				String.format("%+.2f%%", m.getVariacion()));
 	}
 	
-//	public static void modificarDatosMercado() {
-//		
-//	}
-
+	public static void recomendarCriptomoneda() {
+		List<Mercado> mercado = archivo.getListaMercados();
+		List<Criptomoneda> criptomoneda = archivo.getListaCriptomonedas();
+		BigDecimal porcentajeMayor = BigDecimal.ZERO, porcentajeActual = BigDecimal.ZERO;
+		String nombreMayor= "";
+		
+		for(int i=0;i < criptomoneda.size(); i++) {
+			BigDecimal capacidad = new BigDecimal(mercado.get(i).getCapacidad());
+			BigDecimal dividir = capacidad.divide(criptomoneda.get(i).getPrecio(),2,RoundingMode.HALF_UP);
+			porcentajeActual = dividir.multiply(new BigDecimal(100));
+			
+			if(porcentajeActual.compareTo(porcentajeMayor) >= 0) {
+				porcentajeMayor = porcentajeActual;
+				nombreMayor = criptomoneda.get(i).getNombre();
+			}
+		}
+		System.out.println("\nTe recomiendo la criptomoneda: "+ nombreMayor);
+		InputHelper.pauseSystem();
+	}
+	
 }

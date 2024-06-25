@@ -2,6 +2,7 @@ package tp.unlam.edu.ar.criptomoneda.manager;
 
 import tp.unlam.edu.ar.criptomoneda.model.Historico;
 import tp.unlam.edu.ar.criptomoneda.utils.Archivo;
+import tp.unlam.edu.ar.criptomoneda.utils.InputHelper;
 
 public class HistoricoManager {
 	private static Archivo archivo = Archivo.getInstancia();
@@ -33,7 +34,7 @@ public class HistoricoManager {
 	public static void mostrarHistorico() {
 		System.out.println("Simbolo Cantidad");
 		for(Historico c: archivo.getListaHistorico()) {
-			System.out.println(c.getSimbolo() + "----- " + c.getCapacidad());
+			System.out.println(c.getSimbolo() + " ----- " + c.getCapacidad());
 		}
 	}
 }
