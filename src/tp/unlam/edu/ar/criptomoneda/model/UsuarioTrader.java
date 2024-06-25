@@ -53,6 +53,10 @@ public class UsuarioTrader extends Usuario {
 	public void setSaldoCompra(BigDecimal monto) {
 		this.saldoActual= this.saldoActual.subtract(monto);
 	}
+	
+	public void setSaldoVenta(BigDecimal monto) {
+		this.saldoActual= this.saldoActual.add(monto);
+	}
 
 	public void completarRegistro() {
     	System.out.println("------------Registro de usuario------------");

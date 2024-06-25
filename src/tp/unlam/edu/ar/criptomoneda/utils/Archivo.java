@@ -168,11 +168,12 @@ public class Archivo {
             while ((line = raf.readLine()) != null) {
             	int pos = line.length();
             	long posicionActual = raf.getFilePointer();
-            	long aux = posicionActual - pos;
+            	long aux = posicionActual - pos - 1;
                 String[] values = line.split(";");
                 if(usuario.getNombre().equals(values[0])) {
                 	raf.seek(aux);
                 	raf.writeBytes(usuario.toString());
+                	raf.writeBytes("\n");
                 	break;
                 }
 			}

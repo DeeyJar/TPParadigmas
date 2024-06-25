@@ -25,6 +25,10 @@ public class Historico {
 	public void setActualizarCapacidadCompra(long capacidad) {
 		this.capacidad+=capacidad;
 	}
+
+	public void setActualizarCapacidadVenta(long capacidad) {
+		this.capacidad-=capacidad;
+	}
 	
 	@Override
 	public String toString() {

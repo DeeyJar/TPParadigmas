@@ -5,6 +5,7 @@ import java.util.Locale;
 public class Mercado {
 	public static final float PORCENTAJE = 100;
 	public static final float AUMENTO = 5;
+	public static final float DECREMENTO = 7;
 	public static final String FORMAT = "%s;%d;%.2f%%;%+.2f%%";
 	
 	private String simbolo;
@@ -56,12 +57,24 @@ public class Mercado {
 		this.capacidad -= compra;
 	}
 	
+	public void setCapacidadVenta(long venta) {
+		this.capacidad += venta;
+	}
+	
 	public void setVolumenCompra() {
 		this.volumen += (this.volumen * AUMENTO) / PORCENTAJE;
 	}
 	
 	public void setVariacionCompra() {
 		this.variacion += (this.volumen * AUMENTO) / PORCENTAJE;
+	}
+	
+	public void setVolumenVenta() {
+		this.volumen -= (this.volumen * DECREMENTO) / PORCENTAJE;
+	}
+	
+	public void setVariacionVenta() {
+		this.variacion -= (this.volumen * DECREMENTO) / PORCENTAJE;
 	}
 	
 	@Override

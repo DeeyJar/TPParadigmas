@@ -64,19 +64,36 @@ public class UsuarioTraderManager {
 		System.out.println("----------- Venta Criptomoneda -----------");
 		HistoricoManager.mostrarHistorico();
 		String simboloCripto = InputHelper.getString("Ingrese el simbolo de la criptomoneda: ");
+		UsuarioTrader usuario = (UsuarioTrader)archivo.getUsuario();
 		
 		Historico historial = HistoricoManager.buscarSimboloDelHistorico(simboloCripto);
 		Criptomoneda cripto = CriptomonedaManager.buscarCriptomonedaPorSimbolo(simboloCripto);
 		Mercado mercado = MercadoManager.buscarMercadoPorSimbolo(simboloCripto);
 		
 		if(historial != null && cripto != null) {
-			long ventaCripto = InputHelper.getLong("Ingrese la cantidad de venta: ");
-			if(ventaCripto <= historial.getCapacidad()) {
-				
+			if(historial.getCapacidad() > 0) {
+				long ventaCripto = InputHelper.getLong("Ingrese la cantidad de venta: ");
+				if(ventaCripto <= historial.getCapacidad()) {
+					System.out.println("Procesando venta...");
+					mercado.setCapacidadVenta(ventaCripto);
+					mercado.setVariacionVenta();
+					mercado.setVolumenVenta();
+					
+					historial.setActualizarCapacidadVenta(ventaCripto);
+					
+					usuario.setSaldoVenta(cripto.getPrecio().multiply(new BigDecimal(ventaCripto)));
+					System.out.println("Venta completa");
+				}else {
+					System.out.println("Supera la capacidad disponible.");
+				}
+			}
+			else {
+				System.out.println("No es posible realizar la venta.");
 			}
 		}
 		else{
 			System.out.println("No se encontro la criptomoneda.");
 		}
+		InputHelper.pauseSystem();
 	}
 }
